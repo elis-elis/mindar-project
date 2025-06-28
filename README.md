@@ -9,7 +9,7 @@ This project is a basic augmented reality demo using [MindAR.js](https://hiukim.
 - Camera auto starts when the image is detected
 
 ### Live Demo
-![MindAR Demo](assets/mindar-ezgif.com-video-to-gif-converter.gif)
+![MindAR Demo](assets/mindar-gif2.gif)
 
 ## 📁 Project Structure
 
