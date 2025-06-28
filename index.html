@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>MindAR Test</title>
+        <title>MindAR App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!-- A-Frame and MindAR -->
@@ -37,34 +37,31 @@
     </head>
     <body>
         <a-scene 
-        mindar-image="imageTargetSrc: targets.mind;" 
-        embedded 
-        renderer="precision: mediump; logarithmicDepthBuffer: false; antialias: true; alpha: true"
-        color-space="sRGB"
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false"
+            mindar-image="imageTargetSrc: targets.mind;" 
+            embedded 
+            color-space="sRGB" 
+            renderer="colorManagement: true, physicallyCorrectLights"
+            vr-mode-ui="enabled: false" 
+            device-orientation-permission-ui="enabled: false"
         >
-        <a-assets>
-            <!-- optional preload assets -->
-        </a-assets>
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
         <a-entity mindar-image-target="targetIndex: 0">
-            <a-plane 
-            position="0 0 0" 
-            height="1" 
-            width="1" 
-            color="lime" 
-            opacity="0.8"
-            ></a-plane>
+            <a-gltf-model
+                src="model/duck.glb"
+                position="1 0 0"
+                scale="1 1 1"
+                rotation="0 0 0"
+            ></a-gltf-model> 
             <a-box 
-            position="0 0 0.5" 
-            depth="0.2" 
-            height="0.2" 
-            width="0.2" 
-            color="red"
+                color="pink" 
+                position="0 0 0.5" 
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 2000"
             ></a-box>
+
+            
+
         </a-entity>
         </a-scene>
     </body>
