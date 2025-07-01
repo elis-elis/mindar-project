@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>MindAR App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- A-Frame and MindAR -->
+        <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
+
+        <script>
+        AFRAME.registerComponent("auto-color-cycle", {
+            init: function () {
+            this.changeColor = () => {
+                const color = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
+                this.el.setAttribute("color", color);
+                console.log("Auto color:", color);
+            };
+            this.changeColor(); // Initial
+            this.interval = setInterval(this.changeColor, 2000); // Every 2 sec
+            },
+            remove: function () {
+            clearInterval(this.interval);
+            }
+        });
+        </script>
+
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+            a-scene {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <a-scene 
+            mindar-image="imageTargetSrc: targets0.mind; filterMinCF:0.1; filterBeta: 10; warmupTolerance: 1; missTolerance: 1"
+            embedded 
+            color-space="sRGB"
+            renderer="colorManagement: true, physicallyCorrectLights"
+            vr-mode-ui="enabled: false"
+            device-orientation-permission-ui="enabled: false">
+
+            <a-camera position="0 0 0"
+                look-controls="enabled: false"
+                cursor="rayOrigin: mouse"
+                raycaster="objects: .clickable"
+            ></a-camera>
+
+            <!-- Always-visible box -->
+            <a-box
+                id="redbox"
+                position="0 0 -2"
+                scale="0.5 0.5 0.5"
+                color="red"
+                auto-color-cycle>
+            </a-box>
+
+            <!-- AR content that shows on tracked image -->
+            <a-entity mindar-image-target="targetIndex: 0">
+                <a-gltf-model
+                src="model/duck.glb"
+                position="1 0 0"
+                scale="2 2 2"
+                rotation="0 35 0"
+                ></a-gltf-model> 
+
+                <a-box
+                    position="0 0 0"
+                    scale="0.5 0.5 0.5"
+                    color="pink"
+                    auto-color-cycle
+                >
+                </a-box>
+
+                <!-- Orbiting sphere -->
+                <a-sphere
+                    radius="0.3"
+                    color="white"
+                    position="0.5 0.5 0"
+                    animation="property: position; to: -0.5 0.5 0; dir: alternate; dur: 1000; loop: true"
+                ></a-sphere>
+
+                <!-- Rising sparkles -->
+                <a-sphere
+                    radius="0.1"
+                    color="green"
+                    position="0 1 0.5"
+                    animation="property: position; to: 1 1 0.5; dur: 2000; loop: true"
+                    animation__opacity="property: material.opacity; to: 0; dur: 2000; loop: true"
+                    material="opacity: 1; transparent: true"
+                ></a-sphere>
+            </a-entity>
+        </a-scene>
+    </body>
+</html>
